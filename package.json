@@ -1,0 +1,15 @@
+{
+  "name": "@jsdesigndeveloper/plugin-typings",
+  "version": "1.0.1",
+  "description": "即时设计插件 API 类型",
+  "main": "",
+  "scripts": {
+    "prettier": "npm run prettier-path -- '**/*.{ts,js}'",
+    "prettier-path": "prettier --write",
+    "prettier-path:check": "prettier --check",
+    "prettier:check": "npm run prettier-path:check -- '**/*.{ts,js}'",
+    "test": "tsc"
+  },
+  "author": { "name": "JsDesign" },
+  "license": "ISC"
+}
