@@ -1,6 +1,6 @@
 {
   "name": "@jsdesigndeveloper/plugin-typings",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "即时设计插件 API 类型",
   "main": "",
   "scripts": {
@@ -11,5 +11,10 @@
     "test": "tsc"
   },
   "author": { "name": "JsDesign" },
-  "license": "ISC"
+  "license": "ISC",
+  "homepage": "https://github.com/jsdesigndev/plugin-typings#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsdesigndev/plugin-typings.git"
+  }
 }
