@@ -28,6 +28,7 @@ interface PluginAPI {
   readonly viewport: ViewportAPI
 
   readonly currentUser: User | null
+  readonly activeUsers: ActiveUser[]
 
   closePlugin(message?: string): void
 
@@ -1103,4 +1104,10 @@ interface User {
   // dot stamps and cursor.
   readonly color: string
   readonly sessionId: string
+}
+
+interface ActiveUser extends User {
+  readonly position: Vector | null
+  readonly viewport: Rect
+  readonly selection: string[]
 }
