@@ -1102,5 +1102,5 @@ interface User {
   // The current user's multiplayer color. This will match the color of their
   // dot stamps and cursor.
   readonly color: string
-  readonly sessionId: number
+  readonly sessionId: string
 }
