@@ -696,6 +696,7 @@ interface BlendMixin {
   opacity: number
   blendMode: "PASS_THROUGH" | BlendMode
   isMask: boolean
+  isHideMaskLayer: boolean // 是否隐藏蒙版层
   effects: ReadonlyArray<Effect>
   effectStyleId: string
 }
