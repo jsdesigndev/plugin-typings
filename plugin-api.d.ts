@@ -986,7 +986,7 @@ interface TextNode extends DefaultShapeMixin, ConstraintMixin, TextSublayerNode 
 
   textAlignHorizontal: "LEFT" | "CENTER" | "RIGHT" | "JUSTIFIED"
   textAlignVertical: "TOP" | "CENTER" | "BOTTOM"
-  textAutoResize: "NONE" | "WIDTH_AND_HEIGHT" | "HEIGHT"
+  textAutoResize: "NONE" | "WIDTH_AND_HEIGHT" | "HEIGHT" | "TRUNCATE"
   autoRename: boolean
 
   textStyleId: string | PluginAPI['mixed']
