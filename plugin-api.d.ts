@@ -715,6 +715,10 @@ interface MinimalStrokesMixin {
   strokes: ReadonlyArray<Paint>
   strokeStyleId: string
   strokeWeight: number
+  strokeTopWeight: number
+  strokeBottomWeight: number
+  strokeLeftWeight: number
+  strokeRightWeight: number
   strokeJoin: StrokeJoin | PluginAPI['mixed']
   strokeAlign: "CENTER" | "INSIDE" | "OUTSIDE"
   dashPattern: ReadonlyArray<number>
