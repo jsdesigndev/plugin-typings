@@ -112,7 +112,7 @@ interface PluginAPI {
   loadFontAsync(fontName: FontName): Promise<void>
   readonly hasMissingFont: boolean
 
-  createNodeFromSvg(svg: string): Promise<FrameNode>
+  createNodeFromSvg(svg: string): FrameNode
 
   createImage(data: Uint8Array): Image
   getImageByHash(hash: string): Image
@@ -503,11 +503,9 @@ type BlendMode =
   "NORMAL" | // 正常
   "DARKEN" | // 变暗
   "MULTIPLY" | // 正片叠底
-  // "LINEAR_BURN" |
   "COLOR_BURN" | // 颜色加深
   "LIGHTEN" | // 变亮
   "SCREEN" | // 滤色
-  // "LINEAR_DODGE" |
   "COLOR_DODGE" | // 颜色减淡
   "OVERLAY" | // 叠加
   "SOFT_LIGHT" | // 柔光
@@ -521,6 +519,25 @@ type BlendMode =
 
 interface Font {
   fontName: FontName
+}
+
+interface StyledTextSegment {
+  characters: string
+  start: number
+  end: number
+  fontSize: number
+  fontName: FontName
+  // fontWeight: number
+  textDecoration: TextDecoration
+  textCase: TextCase
+  lineHeight: LineHeight
+  letterSpacing: LetterSpacing
+  fills: Paint[]
+  textStyleId: string
+  fillStyleId: string
+  listOptions: TextListOptions
+  indentation: number
+  hyperlink: HyperlinkTarget | null
 }
 
 type Reaction = { action: Action | null, trigger: Trigger | null }
@@ -715,6 +732,10 @@ interface MinimalStrokesMixin {
   strokes: ReadonlyArray<Paint>
   strokeStyleId: string
   strokeWeight: number
+  strokeTopWeight: number
+  strokeBottomWeight: number
+  strokeLeftWeight: number
+  strokeRightWeight: number
   strokeJoin: StrokeJoin | PluginAPI['mixed']
   strokeAlign: "CENTER" | "INSIDE" | "OUTSIDE"
   dashPattern: ReadonlyArray<number>
@@ -877,6 +898,18 @@ interface TextSublayerNode {
   setRangeListOptions(start: number, end: number, value: TextListOptions): void
   getRangeIndentation(start: number, end: number): number | PluginAPI['mixed']
   setRangeIndentation(start: number, end: number, value: number): void
+  getStyledTextSegments<
+    StyledTextSegmentFields extends (keyof Omit<
+      StyledTextSegment,
+      'characters' | 'start' | 'end'
+    >)[],
+  >(
+    fields: StyledTextSegmentFields,
+    start?: number,
+    end?: number,
+  ): Array<
+    Pick<StyledTextSegment, StyledTextSegmentFields[number] | 'characters' | 'start' | 'end'>
+  >
 }
 
 ////////////////////////////////////////////////////////////////////////////////
