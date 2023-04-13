@@ -55,14 +55,17 @@ interface PluginAPI {
   on(type: ArgFreeEventType, callback: () => void): void;
   on(type: "run", callback: (event: RunEvent) => void): void
   on(type: "drop", callback: (event: DropEvent) => boolean): void;
+  on(type: 'documentchange', callback: (event: DocumentChangeEvent) => void): void
 
   once(type: ArgFreeEventType, callback: () => void): void
   once(type: "run", callback: (event: RunEvent) => void): void;
   once(type: "drop", callback: (event: DropEvent) => boolean): void;
+  once(type: 'documentchange', callback: (event: DocumentChangeEvent) => void): void
 
   off(type: ArgFreeEventType, callback: () => void): void
   off(type: "run", callback: (event: RunEvent) => void): void;
-  off(type: "drop", callback: (event: DropEvent) => boolean): void;
+  off(type: "drop", callback: (event: DropEvent) => boolean): void;  
+  off(type: 'documentchange', callback: (event: DocumentChangeEvent) => void): void
 
   readonly mixed: unique symbol
 
@@ -113,8 +116,10 @@ interface PluginAPI {
   readonly hasMissingFont: boolean
 
   createNodeFromSvg(svg: string): FrameNode
+  createNodeFromJSXAsync(jsx: any): Promise<SceneNode>
 
   createImage(data: Uint8Array): Image
+  createImageAsync(src: string): Promise<Image>
   getImageByHash(hash: string): Image
 
   // createLinkPreviewAsync(url:string): Promise<EmbedNode | LinkUnfurlNode> // figjam
@@ -288,6 +293,45 @@ interface ArcData {
   readonly endingAngle: number
   readonly innerRadius: number // 0-1 之间的半径值
 }
+
+
+interface DocumentChangeEvent {
+  documentChanges: DocumentChange[]
+}
+
+interface BaseDocumentChange {
+  id: string
+  origin: 'LOCAL' | 'REMOTE'
+}
+interface BaseNodeChange extends BaseDocumentChange {
+  node: SceneNode | RemovedNode
+}
+interface RemovedNode {
+  readonly removed: true
+  readonly type: NodeType
+  readonly id: string
+}
+interface CreateChange extends BaseNodeChange {
+  type: 'CREATE'
+}
+interface DeleteChange extends BaseNodeChange {
+  type: 'DELETE'
+}
+interface BaseStyleChange extends BaseDocumentChange {
+  style: PaintStyle | TextStyle | GridStyle | EffectStyle | null
+}
+interface StyleCreateChange extends BaseStyleChange {
+  type: 'STYLE_CREATE'
+}
+interface StyleDeleteChange extends BaseStyleChange {
+  type: 'STYLE_DELETE'
+  style: null
+}
+declare type DocumentChange =
+  | CreateChange
+  | DeleteChange
+  | StyleCreateChange
+  | StyleDeleteChange
 
 interface DropShadowEffect {
   readonly type: "DROP_SHADOW"
@@ -1038,6 +1082,7 @@ interface ComponentNode extends DefaultFrameMixin, PublishableMixin, VariantMixi
   readonly type: "COMPONENT"
   clone(): ComponentNode
   createInstance(): InstanceNode
+  readonly instances: InstanceNode[]
 }
 
 interface InstanceNode extends DefaultFrameMixin, VariantMixin {
