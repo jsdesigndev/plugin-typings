@@ -1128,6 +1128,7 @@ interface GridStyle extends BaseStyle {
 interface Image {
   readonly hash: string
   getBytesAsync(): Promise<Uint8Array>
+  getSizeAsync(): Promise<{ width: number; height: number }>
 }
 
 interface User {
